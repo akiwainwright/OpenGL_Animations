@@ -12,10 +12,11 @@ int main(int argc, char* argv[])
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
     Window* baseWindow = new Window("Animation Project", 600, 600);
+
     if (!baseWindow->CreateWindow())
     {
         glfwTerminate();
-        return 1;
+        return -1;
     }
     
     glfwMakeContextCurrent(baseWindow->GetWindow());
@@ -25,6 +26,9 @@ int main(int argc, char* argv[])
         std::cout << "Failed to initialize GLAD" << std::endl;
         return -1;
     }
+
+    glViewport(0, 0, baseWindow->GetWindowWidth(), baseWindow->GetWindowHeight());
+
 
 
 	return 0;
