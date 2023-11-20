@@ -2,7 +2,10 @@
 #include <glad/glad.h>
 #include <glfw/glfw3.h>
 #include "Window.h"
+#include "Callbacks.h"
 #include "Game.h"
+
+
 
 int main(int argc, char* argv[])
 {
@@ -11,7 +14,7 @@ int main(int argc, char* argv[])
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-    Window* baseWindow = new Window("Animation Project", 600, 600);
+    Window* baseWindow = new Window("Animation Project", 720, 1280);
 
     if (!baseWindow->CreateWindow())
     {
@@ -27,9 +30,20 @@ int main(int argc, char* argv[])
         return -1;
     }
 
-    glViewport(0, 0, baseWindow->GetWindowWidth(), baseWindow->GetWindowHeight());
+    glfwSetFramebufferSizeCallback(baseWindow->GetWindow(), Callbacks::Framebuffer_size_callback);
 
+    while (!glfwWindowShouldClose(baseWindow->GetWindow()))
+    {
+        Callbacks::TestInput(baseWindow->GetWindow());
 
+        glClearColor(0.9f, 0.3f, 0.3f, 1.0f);
+        glClear(GL_COLOR_BUFFER_BIT);
+
+        glfwSwapBuffers(baseWindow->GetWindow());
+        glfwPollEvents();
+    }
+
+    glfwTerminate();
 
 	return 0;
 }
